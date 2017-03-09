@@ -23,7 +23,7 @@
 const {app} = require('electron');
 
 const config = require('./config');
-const cp = require('child_process');
+const spawnProcess = require('./lib/spawn-process');
 const fs = require('fs');
 const path = require('path');
 
@@ -38,54 +38,11 @@ let linkName = config.NAME + '.lnk';
 
 let taskbarLink = path.resolve(path.join(process.env.APPDATA, 'Microsoft', 'Internet Explorer', 'Quick Launch', 'User Pinned', 'TaskBar', linkName));
 
-function spawn(command, args, callback) {
-  let error;
-  let spawnedProcess;
-  let stdout;
-  stdout = '';
 
-  try {
-    spawnedProcess = cp.spawn(command, args);
-  } catch (_error) {
-    error = _error;
-    process.nextTick(function() {
-      return typeof callback === 'function' ? callback(error, stdout) : void 0;
-    });
-    return;
-  };
-
-  spawnedProcess.stdout.on('data', function(data) {
-    return stdout += data;
-  });
-
-  error = null;
-  spawnedProcess.on('error', function(processError) {
-    return error != null ? error : error = processError;
-  });
-
-  spawnedProcess.on('close', function(code, signal) {
-    if (code !== 0) {
-      if (error == null) {
-        error = new Error('Command failed: ' + (signal != null ? signal : code));
-      }
-    }
-    if (error != null) {
-      if (error.code == null) {
-        error.code = code;
-      }
-    }
-    if (error != null) {
-      if (error.stdout == null) {
-        error.stdout = stdout;
-      }
-    }
-    return typeof callback === 'function' ? callback(error, stdout) : void 0;
-  });
-};
 
 
 function spawnUpdate(args, callback) {
-  spawn(updateDotExe, args, callback);
+  spawnProcess(updateDotExe, args, callback);
 };
 
 
