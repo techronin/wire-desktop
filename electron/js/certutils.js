@@ -24,7 +24,7 @@ const config = require('./config');
 const MAIN_FP = 'sha256//i3WcWNbHeLUtbknEiTEbC18p+m9aSg77qFgJ9rCT9Q=';
 const strip = (url) => url.replace(/https:|[\/]+/g, '');
 const pins = [
-  {url: strip(config.PROD_URL), fingerprints: ['sha256/EwEzwQBfMUx/l1QwK/12BK2FCQZN50bNGjgGnq7gQpY=', MAIN_FP]},
+  {url: strip(config.PROD_URL), fingerprints: ['sha256/VAvcSC7D9Xdp8QI/iTGErtpWzCNFtkPhGdeHaeLNxrk=', MAIN_FP]},
   {url: 'wire.com', fingerprints: [MAIN_FP]},
   {url: 'www.wire.com', fingerprints: [MAIN_FP]},
   {url: 'prod-nginz-https.wire.com', fingerprints: [MAIN_FP]},

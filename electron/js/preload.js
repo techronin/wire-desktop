@@ -136,6 +136,12 @@ ipcRenderer.once('webapp-loaded', function(sender, config) {
     });
   }
   // else we are on /auth
+  try {
+    const libsodiumNeon = require('libsodium-neon');
+    Object.assign(window.sodium, libsodiumNeon);
+  } catch(err) {
+    // fallback to libsodium.js
+  }
 });
 
 ///////////////////////////////////////////////////////////////////////////////
