@@ -23,7 +23,7 @@
 const {app} = require('electron');
 
 const config = require('./config');
-const spawnProcess = require('./lib/spawn-process');
+const spawnProcess = require('spawn-process');
 const fs = require('fs');
 const path = require('path');
 
@@ -37,8 +37,6 @@ let exeName = config.NAME + '.exe';
 let linkName = config.NAME + '.lnk';
 
 let taskbarLink = path.resolve(path.join(process.env.APPDATA, 'Microsoft', 'Internet Explorer', 'Quick Launch', 'User Pinned', 'TaskBar', linkName));
-
-
 
 
 function spawnUpdate(args, callback) {
