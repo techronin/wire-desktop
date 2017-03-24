@@ -29,6 +29,6 @@
   },
   "optionalDependencies": {
     "node-addressbook": "https://github.com/wireapp/node-addressbook.git#2.0.0",
-    "libsodium-neon": "1.0.1"
+    "libsodium-neon": "2.0.4"
   }
 }

@@ -137,9 +137,8 @@ ipcRenderer.once('webapp-loaded', function(sender, config) {
   }
   // else we are on /auth
   try {
-    const libsodiumNeon = require('libsodium-neon');
-    Object.assign(window.sodium, libsodiumNeon);
-  } catch(err) {
+    Object.assign(window.sodium, require('libsodium-neon'));
+  } catch (err) {
     // fallback to libsodium.js
   }
 });
