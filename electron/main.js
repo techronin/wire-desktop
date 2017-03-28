@@ -53,6 +53,7 @@ let enteredWebapp = false;
 let quitting = false;
 let shouldQuit = false;
 let argv = minimist(process.argv.slice(1));
+let webappVersion;
 
 ///////////////////////////////////////////////////////////////////////////////
 // Misc
@@ -117,7 +118,7 @@ function getBaseUrl() {
   return baseURL;
 }
 
-ipcMain.once('load-webapp', function(event, online) {
+ipcMain.once('load-webapp', function() {
   enteredWebapp = true;
   let baseURL = getBaseUrl();
   baseURL += (baseURL.includes('?') ? '&' : '?') + 'hl=' + locale.getCurrent();
@@ -129,6 +130,10 @@ ipcMain.on('loaded', function() {
   if (size[0] < config.MIN_WIDTH_MAIN || size[1] < config.MIN_HEIGHT_MAIN) {
     util.resizeToBig(main);
   }
+});
+
+ipcMain.once('webapp-version', function(event, version) {
+  webappVersion = version;
 });
 
 ipcMain.on('save-picture', function(event, fileName, bytes) {
@@ -149,10 +154,12 @@ ipcMain.on('google-auth-request', function(event) {
     });
 });
 
-ipcMain.on('wrapper-reload', function() {
-  app.relaunch();
-  app.quit();
-});
+if (process.platform !== 'darwin') {
+  ipcMain.on('wrapper-reload', function() {
+    app.relaunch();
+    app.quit();
+  });
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 // APP Windows
@@ -280,12 +287,18 @@ function showAboutWindow() {
     about = new BrowserWindow({
       'title': '',
       'width': 304,
-      'height': 208,
+      'height': 240,
       'resizable': false,
       'fullscreen': false,
     });
     about.setMenuBarVisibility(false);
     about.loadURL(ABOUT_HTML);
+    about.webContents.on('dom-ready', function() {
+      about.webContents.send('about-loaded', {
+        webappVersion: webappVersion,
+      });
+    });
+
     about.on('closed', function() {
       about = undefined;
     });

@@ -35,9 +35,9 @@
     }
   },
   "devDependencies": {
-    "electron": "1.6.3",
+    "electron": "1.6.4",
     "electron-builder": "12.3.1",
-    "electron-mocha": "3.3.0",
+    "electron-mocha": "3.4.0",
     "electron-packager": "8.6.0",
     "electron-rebuild": "1.4.0",
     "electron-winstaller": "2.5.2",
